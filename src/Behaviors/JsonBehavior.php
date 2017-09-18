@@ -58,9 +58,8 @@ class JsonBehavior extends Behavior
     public function canGetProperty($name, $checkVars = true)
     {
         // Only do this if we have exactly 1 json attribute.
-        return (isset($this->defaultAttribute)
-            && isset($this->owner->{$this->defaultAttribute}[$name])
-        ) || parent::canGetProperty($name, $checkVars);
+        return isset($this->defaultAttribute)
+            || parent::canGetProperty($name, $checkVars);
     }
 
     public function canSetProperty($name, $checkVars = true)
@@ -83,12 +82,14 @@ class JsonBehavior extends Behavior
 
     public function __get($name)
     {
-        if (isset($this->defaultAttribute)
-            && isset($this->owner->{$this->defaultAttribute}[$name])) {
-            return $this->owner->{$this->defaultAttribute}[$name];
-        } else {
-            return parent::__get($name);
+        if (isset($this->defaultAttribute)) {
+            if (isset($this->owner->{$this->defaultAttribute}[$name])) {
+                return $this->owner->{$this->defaultAttribute}[$name];
+            }
+            return null;
         }
+
+        return parent::__get($name);
     }
 
     /**

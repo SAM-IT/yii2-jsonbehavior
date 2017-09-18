@@ -89,4 +89,17 @@ class JsonBehaviorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(isset($model->data['a']));
     }
 
+    public function testMagicGet()
+    {
+        $model = new TestModel();
+        $this->assertNull($model->a);
+    }
+
+    public function testMagicSet()
+    {
+        $model = new TestModel();
+        $model->b = 'abc';
+        $this->assertEquals('abc', $model->b);
+    }
+
 }
