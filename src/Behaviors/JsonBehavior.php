@@ -38,20 +38,18 @@ class JsonBehavior extends Behavior
 
     }
 
-    public function attach($owner)
+    public function attach($owner): void
     {
         parent::attach($owner);
         $this->createMaps();
     }
 
-
-    public function afterFind($event)
+    public function afterFind(): void
     {
         $this->createMaps();
-        return true;
     }
 
-    public function beforeSave($event)
+    public function beforeSave(): bool
     {
         $this->createMaps();
         return true;
@@ -83,7 +81,8 @@ class JsonBehavior extends Behavior
         }
     }
 
-    public function __get($name) {
+    public function __get($name)
+    {
         if (isset($this->defaultAttribute)
             && isset($this->owner->{$this->defaultAttribute}[$name])) {
             return $this->owner->{$this->defaultAttribute}[$name];
