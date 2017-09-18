@@ -1,0 +1,36 @@
+{
+    "name": "sam-it/yii2-jsonbehavior",
+    "description": "Advanced AR JSON support",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sam Mousa",
+            "email": "sam@mousa.nl"
+        },
+        {
+            "name": "Joey Claessen",
+            "email": "joey_claessen@hotmail.com"
+        }
+    ],
+    "require": {},
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "require-dev": {
+        "yiisoft/yii2": "^2.0",
+        "phpunit/phpunit": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "SamIT\\Yii2\\" : "src/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+
+}
