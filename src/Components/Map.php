@@ -2,8 +2,6 @@
 namespace SamIT\Yii2\Components;
 
 
-use Traversable;
-
 class Map implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
 {
     protected $data = [];
@@ -76,48 +74,35 @@ class Map implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
         return $this->data;
     }
 
-    /**
-     * is utilized for reading data from inaccessible members.
-     *
-     * @param $name string
-     * @return mixed
-     * @link http://php.net/manual/en/language.oop5.overloading.php#language.oop5.overloading.members
-     */
-    function __get($name)
+    public function __get($name)
     {
         return $this->offsetGet($name);
     }
 
-    /**
-     * run when writing data to inaccessible members.
-     *
-     * @param $name string
-     * @param $value mixed
-     * @return void
-     * @link http://php.net/manual/en/language.oop5.overloading.php#language.oop5.overloading.members
-     */
-    function __set($name, $value)
+    public function __set($name, $value)
     {
         $this->offsetSet($name, $value);
     }
 
-
-    /**
-     * Retrieve an external iterator
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
-     * @since 5.0.0
-     */
     public function getIterator()
     {
         return new \ArrayIterator($this->data);
     }
 
-    public function mergeWith($extraData) {
+    /**
+     * Merges some extra data into the current map.
+     * Supports recursive maps in the new data.
+     * @param $extraData
+     * @return mixed
+     */
+    public function mergeWith($extraData): void
+    {
         if (is_array($extraData)) {
-            return $this->mergeWith(new self($extraData));
-        } elseif ($extraData instanceof self) {
+            $this->mergeWith(new self($extraData));
+            return;
+        }
+
+        if ($extraData instanceof self) {
             foreach($extraData as $key => $value) {
                 if (isset($this[$key])
                     && $value instanceof self
@@ -128,10 +113,11 @@ class Map implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
                     $this[$key] = $value;
                 }
             }
-
+            return;
         }
-    }
 
+        throw new \InvalidArgumentException("Argument must be array or Map");
+    }
 
     public function replaceWith($data) {
         if (is_array($data)) {
@@ -146,7 +132,7 @@ class Map implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
     {
         foreach($this->data as $key => $value) {
             if ($value instanceof self) {
-                $this->data[$key] = clone self;
+                $this->data[$key] = clone $value;
             }
         }
     }
@@ -161,7 +147,4 @@ class Map implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
         }
         return $result;
     }
-
-
-
 }
