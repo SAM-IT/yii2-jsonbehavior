@@ -4,7 +4,6 @@
 [![Total Downloads](https://poser.pugx.org/sam-it/yii2-jsonbehavior/downloads)](https://packagist.org/packages/sam-it/yii2-jsonbehavior)
 [![Latest Stable Version](https://poser.pugx.org/sam-it/yii2-jsonbehavior/v/stable)](https://packagist.org/packages/sam-it/yii2-jsonbehavior)
 
-
 # Yii2 JsonBehavior
 Work with JSON fields in Yii2
 

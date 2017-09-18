@@ -53,7 +53,10 @@ class MapTest extends \PHPUnit\Framework\TestCase
                 'b' => null,
                 'c' => [
                     'd' => 'e'
-                ]
+                ],
+                'd' => new Map([
+                    'e' => 'f'
+                ])
             ]
         ]);
 
@@ -61,6 +64,8 @@ class MapTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(isset($map['a']['b']['d']));
         $this->assertTrue(isset($map['a']['c']));
         $this->assertTrue(isset($map['a']['c']['d']));
+
+        $this->assertTrue(isset($map['a']['d']['e']));
 
         $this->assertFalse(isset($map['x']['y']['z']));
         $this->assertFalse(isset($map['x']['y']));
@@ -78,9 +83,13 @@ class MapTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $this->assertEquals('b', $map['a']);
-        $this->assertEquals(null, $map['b']);
-        $this->assertEquals('e', $map['c']['d']);
+        $this->assertEquals($map['a'], $map->a);
 
+        $this->assertEquals(null, $map['b']);
+        $this->assertEquals($map['b'], $map->b);
+        $this->assertEquals('e', $map['c']['d']);
+        $this->assertEquals('e', $map->c['d']);
+        $this->assertEquals('e', $map->c->d);
     }
 
     public function testOffsetSet()
@@ -101,6 +110,40 @@ class MapTest extends \PHPUnit\Framework\TestCase
 
     }
 
+    public function testIteration()
+    {
+        $in = [
+            5 => 'a',
+            4 => 'b',
+            3 => 'c',
+            2 => 'd',
+            1 => 'e',
+            0 => 'f'
+        ];
+
+        $index = 0;
+        foreach(new Map($in) as $key => $value) {
+            $this->assertEquals($in[$key], $value);
+            $this->assertEquals(array_values($in)[$index], $value);
+
+            $index++;
+        }
+    }
+
+    public function testJsonEncodeDecode()
+    {
+
+        $in = [
+            'a' => 'b',
+            'b' => 'd',
+            'c' => ['a' => 'b'],
+            'd' => new Map(['a' => 'b'])
+        ];
+
+        $this->assertEquals(json_encode($in), json_encode(new Map($in)));
+
+        $this->assertEquals(json_encode($in), json_encode(new Map(json_encode($in))));
+    }
     public function testOffsetUnSet()
     {
         $map = new Map([]);
