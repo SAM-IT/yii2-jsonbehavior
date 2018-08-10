@@ -137,12 +137,18 @@ class MapTest extends \PHPUnit\Framework\TestCase
             'a' => 'b',
             'b' => 'd',
             'c' => ['a' => 'b'],
-            'd' => new Map(['a' => 'b'])
+            'd' => new Map(['a' => 'b']),
+            'x' => 'ö'
         ];
 
         $this->assertEquals(json_encode($in), json_encode(new Map($in)));
 
         $this->assertEquals(json_encode($in), json_encode(new Map(json_encode($in))));
+    }
+
+    public function testStringConversion()
+    {
+        $this->assertEquals('{"x":"ö"}', (new Map(['x' => 'ö']))->__toString());
     }
     public function testOffsetUnSet()
     {

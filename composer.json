@@ -13,7 +13,9 @@
             "email": "joey_claessen@hotmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "ext-json": "*"
+    },
     "repositories": [
         {
             "type": "composer",

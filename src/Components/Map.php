@@ -2,6 +2,8 @@
 namespace SamIT\Yii2\Components;
 
 
+use yii\helpers\Json;
+
 class Map implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
 {
     protected $data = [];
@@ -66,7 +68,7 @@ class Map implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
 
     public function __toString()
     {
-        return json_encode($this->data, JSON_FORCE_OBJECT);
+        return Json::encode($this->data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT);
     }
 
     public function jsonSerialize()
