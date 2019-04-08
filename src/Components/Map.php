@@ -143,7 +143,7 @@ class Map implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
         $result = $this->data;
         foreach($result as $key => $value) {
             if ($value instanceof self) {
-                $result[$value] = $value->asArray();
+                $result[$key] = $value->asArray();
             }
 
         }
