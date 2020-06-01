@@ -1,4 +1,6 @@
 /vendor/
 composer.lock
 /.idea/
-/bin/
+/bin/cghooks.lock
+node_modules
+coverage

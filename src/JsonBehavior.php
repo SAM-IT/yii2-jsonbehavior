@@ -1,8 +1,8 @@
 <?php
 
-namespace SamIT\Yii2\Behaviors;
+namespace SamIT\Yii2\JsonBehavior;
 
-use SamIT\Yii2\Components\Map;
+use SamIT\Yii2\JsonBehavior\Map;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 
@@ -30,12 +30,11 @@ class JsonBehavior extends Behavior
      */
     protected function createMaps()
     {
-        foreach($this->jsonAttributes as $attribute) {
-            if(!$this->owner->$attribute instanceof Map) {
+        foreach ($this->jsonAttributes as $attribute) {
+            if (!$this->owner->$attribute instanceof Map) {
                 $this->owner->$attribute = new Map($this->owner->$attribute);
             }
         }
-
     }
 
     public function attach($owner): void
@@ -100,10 +99,8 @@ class JsonBehavior extends Behavior
     public function init()
     {
         parent::init();
-        if(!isset($this->defaultAttribute) && count($this->jsonAttributes) == 1) {
+        if (!isset($this->defaultAttribute) && count($this->jsonAttributes) == 1) {
             $this->defaultAttribute = $this->jsonAttributes[0];
         }
     }
-
-
 }

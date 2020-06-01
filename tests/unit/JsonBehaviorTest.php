@@ -1,4 +1,10 @@
 <?php
+declare(strict_types=1);
+
+namespace SamIT\Yii2\JsonBehavior\Tests;
+
+use SamIT\Yii2\JsonBehavior\JsonBehavior;
+
 class TestModel extends \yii\db\ActiveRecord
 {
     private static $db;
@@ -22,18 +28,17 @@ class TestModel extends \yii\db\ActiveRecord
     {
         return [
             [
-            'class' => \SamIT\Yii2\Behaviors\JsonBehavior::class,
+            'class' => JsonBehavior::class,
 //            'defaultAttribute' => 'test',
             'jsonAttributes' => ['data']
-        ]
+            ]
         ];
-
     }
 }
 
 class JsonBehaviorTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         TestModel::getDb()->createCommand()->insert(TestModel::tableName(), [
@@ -62,7 +67,6 @@ class JsonBehaviorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(isset($model->data['b']['c']));
         $this->assertFalse(isset($model->data['b']['d']));
         $this->assertEquals('d', $model->data['b']['c']);
-
     }
 
     public function testDefaultAttribute()
@@ -102,4 +106,11 @@ class JsonBehaviorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('abc', $model->b);
     }
 
+    public function testAttributeDirty()
+    {
+        $model = new TestModel();
+        $model->b = 'abc';
+        $model->save();
+        $this->assertEmpty($model->errors);
+    }
 }

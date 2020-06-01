@@ -1,7 +1,10 @@
 <?php
 
-use SamIT\Yii2\Components\Map;
-use SamIT\Yii2\Components\NullObject;
+namespace SamIT\Yii2\JsonBehavior\Tests;
+
+use DomainException;
+use SamIT\Yii2\JsonBehavior\Map;
+use SamIT\Yii2\JsonBehavior\NullObject;
 
 class MapTest extends \PHPUnit\Framework\TestCase
 {
@@ -12,7 +15,6 @@ class MapTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(Map::class, new Map(['test' => 'abc']));
         $this->assertInstanceOf(Map::class, new Map(new Map(['test' => 'abc'])));
         $this->assertInstanceOf(Map::class, new Map(new NullObject()));
-
     }
 
     public function testConstructorInvalidJson()
@@ -24,7 +26,7 @@ class MapTest extends \PHPUnit\Framework\TestCase
     public function testConstructorInvalidArgument()
     {
         $this->expectException(DomainException::class);
-        new Map(new stdClass());
+        new Map(new \stdClass());
     }
 
 
@@ -106,8 +108,6 @@ class MapTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(isset($map['b']['c']));
 
         $this->assertEquals('c', $map['a']['b']);
-
-
     }
 
     public function testIteration()
@@ -122,7 +122,7 @@ class MapTest extends \PHPUnit\Framework\TestCase
         ];
 
         $index = 0;
-        foreach(new Map($in) as $key => $value) {
+        foreach (new Map($in) as $key => $value) {
             $this->assertEquals($in[$key], $value);
             $this->assertEquals(array_values($in)[$index], $value);
 

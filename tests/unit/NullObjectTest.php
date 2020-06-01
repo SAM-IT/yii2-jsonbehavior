@@ -1,6 +1,9 @@
 <?php
 
-use SamIT\Yii2\Components\NullObject;
+namespace SamIT\Yii2\JsonBehavior\Tests;
+
+use BadMethodCallException;
+use SamIT\Yii2\JsonBehavior\NullObject;
 
 class NullObjectTest extends \PHPUnit\Framework\TestCase
 {

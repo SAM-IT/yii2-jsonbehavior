@@ -1,6 +1,5 @@
 <?php
-namespace SamIT\Yii2\Components;
-
+namespace SamIT\Yii2\JsonBehavior;
 
 use yii\helpers\Json;
 
@@ -20,10 +19,9 @@ class Map implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
             $this->data = $data;
         }
 
-        if(!is_array($this->data)) {
+        if (!is_array($this->data)) {
             throw new \DomainException('Data must be array or json encoded array');
         }
-
     }
 
 
@@ -105,7 +103,7 @@ class Map implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
         }
 
         if ($extraData instanceof self) {
-            foreach($extraData as $key => $value) {
+            foreach ($extraData as $key => $value) {
                 if (isset($this[$key])
                     && $value instanceof self
                     && $this[$key] instanceof self
@@ -121,7 +119,8 @@ class Map implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
         throw new \InvalidArgumentException("Argument must be array or Map");
     }
 
-    public function replaceWith($data) {
+    public function replaceWith($data)
+    {
         if (is_array($data)) {
             return $this->replaceWith(new self($data));
         } elseif ($data instanceof self) {
@@ -132,20 +131,20 @@ class Map implements \ArrayAccess, \JsonSerializable, \IteratorAggregate
 
     public function __clone()
     {
-        foreach($this->data as $key => $value) {
+        foreach ($this->data as $key => $value) {
             if ($value instanceof self) {
                 $this->data[$key] = clone $value;
             }
         }
     }
 
-    public function asArray() {
+    public function asArray()
+    {
         $result = $this->data;
-        foreach($result as $key => $value) {
+        foreach ($result as $key => $value) {
             if ($value instanceof self) {
                 $result[$key] = $value->asArray();
             }
-
         }
         return $result;
     }

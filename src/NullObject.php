@@ -1,5 +1,5 @@
 <?php
-namespace SamIT\Yii2\Components;
+namespace SamIT\Yii2\JsonBehavior;
 
 /**
  * {@inheritDoc}
