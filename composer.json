@@ -33,15 +33,16 @@
     },
     "scripts": {
         "post-install-cmd": "cghooks add --ignore-lock",
-        "test": "vendor/bin/phpunit",
-        "lint": "vendor/bin/phpcs",
-        "lint-fix": "vendor/bin/phpcbf"
+        "test": "phpunit",
+        "lint": "phpcs",
+        "lint-fix": "phpcbf"
     },
     "extra": {
         "hooks": {
             "pre-commit": [
                 "echo committing as $(git config user.name)",
-                "composer lint-fix",
+                "composer lint-fix &&",
+                "composer lint &&",
                 "composer test"
             ],
             "commit-msg": [
