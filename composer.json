@@ -23,6 +23,12 @@
         "phpunit/phpunit": "^9.1",
         "brainmaestro/composer-git-hooks": "^2.8"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "SamIT\\Yii2\\JsonBehavior\\" : "src/"
